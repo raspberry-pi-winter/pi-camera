@@ -4,6 +4,7 @@
 import flask
 import camera
 
+from datetime import datetime
 from waitress import serve
 from flask import jsonify
 
@@ -31,6 +32,7 @@ def main_api():
 @app.route("/camera/get_image")
 @app.route("/api/v1/camera/get_image")
 def camera_get_image():
+    """Function printing python version."""
     image = camera.capture()
     headers = {"Content-Disposition": "attachment; filename=%s" % "{0}-{1}.jpg".format("pi", datetime.utcnow().strftime("%Y%m%d-%H%M%S-%f"))}
     return make_response((image, headers))
