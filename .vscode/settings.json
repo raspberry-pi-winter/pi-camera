@@ -1,6 +1,11 @@
 {
+    "pylint.args": [
+        "--disable import-error"
+    ],
     "cSpell.words": [
+        "jsonify",
         "pytest",
-        "pythonpath"
+        "pythonpath",
+        "webapi"
     ]
 }
