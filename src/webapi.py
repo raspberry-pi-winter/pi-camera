@@ -6,7 +6,7 @@ import camera
 
 from datetime import datetime
 from waitress import serve
-from flask import jsonify
+from flask import jsonify, make_response
 
 app = flask.Flask(__name__)
 
