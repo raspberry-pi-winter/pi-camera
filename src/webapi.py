@@ -1,16 +1,19 @@
 """
    Module providing a function printing python version.
 """
+import os
 import flask
+import base64
+
 import camera
 
 from datetime import datetime
 from waitress import serve
-from flask import jsonify, make_response
+from flask import jsonify, make_response, render_template, send_from_directory
 
 app = flask.Flask(__name__)
 
-def start_webapi(port=8000, debug=False):
+def start_web_server(port=8000, debug=False):
     '''
     Start the web API
     '''
@@ -21,7 +24,20 @@ def start_webapi(port=8000, debug=False):
         print("Start Web API")
         serve(app, host="0.0.0.0", port=port)
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                'favicon.ico',mimetype='image/vnd.microsoft.icon')
+
 @app.route("/")
+@app.route("/index.html")
+def main_index():
+
+    image = camera.capture()
+    img_src = "data:image/jpeg;base64,%s" % base64.b64encode(image).decode()
+
+    return render_template('camera.html', head = "Camera Capture", image_source=img_src)
+
 @app.route("/api/v1")
 def main_api():
     """Function printing python version."""
@@ -39,4 +55,4 @@ def camera_get_image():
 
 
 if __name__ == "__main__":
-    start_webapi()
+    start_web_server()
