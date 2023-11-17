@@ -2,16 +2,15 @@
    Module providing a function printing python version.
 """
 import os
-import flask
 import base64
-
-import camera
 
 from datetime import datetime
 from waitress import serve
-from flask import jsonify, make_response, render_template, send_from_directory
+from flask import Flask,jsonify, make_response, render_template, send_from_directory
 
-app = flask.Flask(__name__)
+import camera
+
+app = Flask(__name__)
 
 def start_web_server(port=8000, debug=False):
     '''
@@ -32,7 +31,6 @@ def favicon():
 @app.route("/")
 @app.route("/index.html")
 def main_index():
-
     image = camera.capture()
     img_src = "data:image/jpeg;base64,%s" % base64.b64encode(image).decode()
 
